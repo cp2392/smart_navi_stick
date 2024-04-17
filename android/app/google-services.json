@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "177526500779",
+    "project_id": "smart-navi-stick",
+    "storage_bucket": "smart-navi-stick.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177526500779:android:1f77648d3bacf5488a76ee",
+        "android_client_info": {
+          "package_name": "com.example.smart_navi_stick"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7_YIfFeBgul-WuaNMCDkISwUZvulmGdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
