@@ -3,6 +3,8 @@
         android:label="smart_navi_stick"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB0gJuTMI9Rj4KHlB2d-RkFv3sIrbXkGTg"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
