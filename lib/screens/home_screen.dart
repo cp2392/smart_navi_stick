@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _center = LatLng(19.022227, 72.856201);
+  final LatLng _center = LatLng(19.022480, 72.855026);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -38,13 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: _center,
-                  zoom: 11.0,
+                  zoom: 18.0,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(
-                  8.0), // Add some padding around the button
+                  8.0), 
               child: ElevatedButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut().then((value) {
@@ -63,29 +63,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  // return Scaffold(
-  //   extendBodyBehindAppBar: true,
-  //   appBar: AppBar(
-  //     backgroundColor: Colors.transparent,
-  //     elevation: 0,
-  //     title: const Text(
-  //       "Smart Navi Stick",
-  //       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-  //     ),
-  //   ),
-  //   body: Container(
-  //     child: Center(
-  //         child: ElevatedButton(
-  //             child: Text("Log Out"),
-  //             onPressed: () {
-  //               FirebaseAuth.instance.signOut().then((value) {
-  //                 print("Signed out");
-  //                 Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => SignInScreen()));
-  //               });
-  //             })),
-  //   ),
-  // );
 }
