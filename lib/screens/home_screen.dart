@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_navi_stick/screens/signin_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,8 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late GoogleMapController mapController;
-
-  final LatLng _center = LatLng(19.022227, 72.856201);
+  late LatLng latLng = LatLng(0, 0);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -31,61 +31,63 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text('Smart Navi Stick'),
           elevation: 2,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 11.0,
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('test')
+              .doc('WObwXiSK7hWjQP00qz8Z')
+              .snapshots(),
+          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            double latitude = snapshot.data!.get('latitude');
+            double longitude = snapshot.data!.get('longitude');
+
+            LatLng latLng = LatLng(latitude, longitude);
+
+            return Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: latLng,
+                      zoom: 15,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId('currentLocation'),
+                        position: latLng,
+                        infoWindow: InfoWindow(title: 'Your Location'),
+                      ),
+                    },
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Add some padding around the button
-              child: ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut().then((value) {
-                    print("Signed out");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignInScreen()));
-                  });
-                },
-                child: Text('Log Out'),
-              ),
-            ),
-          ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut().then((value) {
+                        print("Signed out");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignInScreen(),
+                          ),
+                        );
+                      });
+                    },
+                    child: Text('Log Out'),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
-  // return Scaffold(
-  //   extendBodyBehindAppBar: true,
-  //   appBar: AppBar(
-  //     backgroundColor: Colors.transparent,
-  //     elevation: 0,
-  //     title: const Text(
-  //       "Smart Navi Stick",
-  //       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-  //     ),
-  //   ),
-  //   body: Container(
-  //     child: Center(
-  //         child: ElevatedButton(
-  //             child: Text("Log Out"),
-  //             onPressed: () {
-  //               FirebaseAuth.instance.signOut().then((value) {
-  //                 print("Signed out");
-  //                 Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => SignInScreen()));
-  //               });
-  //             })),
-  //   ),
-  // );
 }
