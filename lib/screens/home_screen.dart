@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('test')
-              .doc('WObwXiSK7hWjQP00qz8Z')
+              .doc('PcUvuaA0QazNLDX7xr5u')
               .snapshots(),
           builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
