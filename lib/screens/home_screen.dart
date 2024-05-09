@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   late GoogleMapController mapController;
   late LatLng latLng = LatLng(0, 0);
@@ -34,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('test')
-              .doc('PcUvuaA0QazNLDX7xr5u')
+              .doc('FcNJSXB4ZlWQ69n3t94Z')
               .snapshots(),
           builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -43,10 +42,26 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
 
-            double latitude = snapshot.data!.get('latitude');
-            double longitude = snapshot.data!.get('longitude');
+            // Retrieve data from the snapshot
+            Map<String, dynamic>? data = snapshot.data?.data() as Map<String, dynamic>?;
 
-            LatLng latLng = LatLng(latitude, longitude);
+            // Check if data is null and handle accordingly
+            if (data == null) {
+              return const Center(
+                child: Text('Data not available'),
+              );
+            }
+
+            // Extract latitude and longitude values as strings
+            String latitudeStr = data['latitude'] as String;
+            String longitudeStr = data['longitude'] as String;
+
+            // Convert strings to doubles using double.tryParse
+            double latitude = double.tryParse(latitudeStr) ?? 0.0;
+            double longitude = double.tryParse(longitudeStr) ?? 0.0;
+
+            // Create a LatLng object using the parsed doubles
+            LatLng latLng = LatLng(latitude/100, longitude/100);
 
             return Column(
               children: [
