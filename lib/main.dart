@@ -10,12 +10,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       // name: 'Smart Navi Stick',
-      // options: const FirebaseOptions(
-      //   apiKey: 'AIzaSyD7_YIfFeBgul-WuaNMCDkISwUZvulmGdo',
-      //   appId: 'id',
-      //   messagingSenderId: '',
-      //   projectId: 'smart-navi-stick',
-      // ),
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyD7_YIfFeBgul-WuaNMCDkISwUZvulmGdo',
+        appId: 'id',
+        messagingSenderId: '',
+        projectId: 'smart-navi-stick',
+      ),
       );
   runApp(
     ChangeNotifierProvider(

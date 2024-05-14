@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_navi_stick/reusable_widgets/user_name_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  Future<void> _callNumber(String number) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: number,
+    );
+    await launchUrl(launchUri);
   }
 
   @override
@@ -111,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   FloatingActionButton.extended(
                     onPressed: () {
+                      _callNumber('100');
                       // Call police action
                     },
                     label: Text('Call Police'),
@@ -119,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   FloatingActionButton.extended(
                     onPressed: () {
+                      _callNumber('02224184191');
                       // Call nearest hospital action
                     },
                     label: Text('Call Nearest Hospital'),
